@@ -1,120 +1,119 @@
-# Marketplace Inventory - Mercado Livre
+# 🛡️ API de Gerenciamento de Inventário Seguro
 
-Este projeto é uma aplicação **Spring Boot** para gerenciamento de **inventário de produtos e usuários** para o **Mercado Livre**.  
+[![Java](https://img.shields.io/badge/Java-21-red.svg?logo=openjdk&logoColor=white)](https://www.java.com/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.5-brightgreen.svg?logo=spring)](https://spring.io/projects/spring-boot)
+[![Security](https://img.shields.io/badge/Spring%20Security-JWT-blue.svg?logo=spring-security)]()
+[![Database](https://img.shields.io/badge/Database-H2-gray.svg?logo=h2)]()
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
-
-## Funcionalidades
-
-- **Produtos**
-  - Criação de novos produtos
-  - Atualização de produtos existentes
-  - Remoção de produtos
-  - Listagem de todos os produtos
-  - Busca de um produto específico por ID
-
-- **Usuários**
-  - Criação de novos usuários
-  - Atualização de dados de usuários
-  - Remoção de usuários
-  - Busca de usuários por ID
-  - Validação de senha com regras de segurança
-
-- **Outros**
-  - Validação de dados para produtos e usuários
-  - Tratamento de exceções centralizado
+Este projeto é um template robusto de **Microsserviço Spring Boot** para gerenciamento de **inventário de produtos e usuários**. Ele demonstra a aplicação de padrões avançados de desenvolvimento, focando em **Clean Architecture** e **Segurança com JWT**.
 
 ---
 
-## Tecnologias Utilizadas
+## ✨ Destaques do Projeto
 
-- Java 21  
-- Spring Boot 3.5.5  
-- Spring Data JPA (persistência de dados)  
-- H2 Database (banco em memória para testes/desenvolvimento)  
-- Maven (gerenciamento de dependências)  
-- Lombok (redução de boilerplate)  
-- MapStruct (mapeamento de DTOs e entidades)  
-- JUnit 5 (testes unitários)  
+O foco principal é o domínio de padrões de software:
+
+1.  **🏗️ Clean Architecture:** Separação explícita em camadas (Domain, Application, Infrastructure, Presentation).
+2.  **🔒 Segurança Robusta:** Configuração completa do **Spring Security** com **JWT** e regras de validação complexas para senhas.
+3.  **🔄 CRUD Completo:** Gerenciamento total de Produtos e Usuários.
+4.  **📚 Tecnologias Modernas:** Utilização de Java 21, Spring Boot 3 e **MapStruct** para mapeamento de DTOs.
 
 ---
 
-## Arquitetura
+## 🏗️ Arquitetura (Clean Architecture)
 
-O projeto segue **Clean Architecture** com separação em camadas:
-
-- **Domain**  
-  Entidades de negócio (`ProductDomain`, `UserDomain`), validadores (`ProductValidator`, `UserValidator`) e exceções customizadas.  
-
-- **Application**  
-  Casos de uso (use cases) e gateways que definem interfaces para a camada de infraestrutura.  
-
-- **Infrastructure**  
-  Implementação da persistência (`ProductRepositoryJPA`, `UserRepositoryJPA`), mapeamento de objetos e configurações.  
-
-- **Presentation**  
-  Exposição da **API REST** (`ProductController`, `UserController`), DTOs e tratamento global de exceções.  
+| Camada | Responsabilidade Principal | Exemplos |
+| :--- | :--- | :--- |
+| **Domain** | Entidades de Negócio e Validação. | `ProductDomain`, `UserValidator`. |
+| **Application** | Orquestração (Casos de Uso) e Contratos (`Gateways`). | `ProductCreationUseCase`, `UserRepositoryGateway`. |
+| **Infrastructure** | Implementação de Persistência, Segurança e Mappers. | `ProductRepositoryJPA`, `JwtService`. |
+| **Presentation** | Exposição da API REST, DTOs e Tratamento de Exceções. | `ProductController`, `GlobalExceptionHandler`. |
 
 ---
 
-## Configuração
+## ✅ Funcionalidades (Endpoints Chave)
 
-Clone o repositório:
+Todas as rotas, exceto `POST /api/v1/users` e o login, exigem autenticação via JWT no cabeçalho `Authorization: Bearer <token>`.
 
-```bash
-git clone https://github.com/daniloalves1902/marketplace-inventory-mercadolivre.git
-````
+### 🔑 Autenticação
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/v1/auth/login` | Autentica e retorna o **JWT**. |
 
-Acesse o diretório do projeto:
+### 📦 Produtos (Requer Autenticação)
+| Método | Endpoint | Uso |
+| :--- | :--- | :--- |
+| `GET` | `/api/v1/products` | Lista todos. |
+| `GET` | `/api/v1/products/{id}` | Busca por ID. |
+| `POST` | `/api/v1/products` | Cria um novo produto. |
+| `PUT` | `/api/v1/products/{id}` | Atualiza o produto. |
+| `DELETE` | `/api/v1/products/{id}` | Remove o produto. |
 
-```bash
-cd marketplace-inventory-mercadolivre
-```
-
-### Configure as credenciais do Mercado Livre
-
-Edite o arquivo `src/main/resources/application.properties` e substitua os placeholders:
-
-```properties
-# Credenciais do Mercado Livre
-mercado-livre.client.id=YOUR-CLIENT-ID
-mercado-livre.client.secret=YOUR-CLIENT-SECRET
-mercado-livre.redirect.uri=YOUR-REDIRECT-URI
-
-# Endpoints da API
-mercado-livre.api.base-url=https://api.mercadolibre.com
-mercado-livre.oauth.url=https://auth.mercadolivre.com.br/authorization
-```
+### 👤 Usuários
+| Método | Endpoint | Requisito de Role |
+| :--- | :--- | :--- |
+| `POST` | `/api/v1/users` | N/A (Rota de Cadastro). |
+| `GET` | `/api/v1/users` | **'ADMIN'** |
+| `PUT` | `/api/v1/users/{id}` | **'ADMIN'** |
+| `DELETE` | `/api/v1/users/{id}` | **'ADMIN'** |
 
 ---
 
-## Como Executar
+## 🛠️ Tecnologias Utilizadas
 
-Com o Maven Wrapper:
-
-```bash
-./mvnw spring-boot:run
-```
-
-Aplicação disponível em:
-👉 [http://localhost:8080](http://localhost:8080)
-
-Console do H2 disponível em:
-👉 [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+| Categoria | Tecnologia |
+| :--- | :--- |
+| **Linguagem** | Java 21 |
+| **Framework** | Spring Boot 3.5.5 |
+| **Segurança** | Spring Security e JJWT |
+| **Persistência** | Spring Data JPA |
+| **Banco de Dados** | H2 Database (In-Memory) |
+| **Mapeamento** | **MapStruct** |
+| **Build** | Maven |
 
 ---
 
-## API Endpoints
+## ⚙️ Como Executar
 
-### 🔹 Produtos
+O projeto utiliza o **H2 Database** em memória, sendo ideal para desenvolvimento e testes rápidos.
 
-* `GET /api/v1/products` → Lista todos os produtos
-* `GET /api/v1/products/{id}` → Busca produto por ID
-* `POST /api/v1/products` → Cria novo produto
-* `PUT /api/v1/products/{id}` → Atualiza produto existente
-* `DELETE /api/v1/products/{id}` → Remove produto por ID
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/daniloalves1902/inventory-management-api.git](https://github.com/daniloalves1902/inventory-management-api.git)
+    ```
 
-**Exemplo de corpo (POST/PUT):**
+2.  **Acesse o diretório:**
+    ```bash
+    cd inventory-management-api
+    ```
+
+3.  **Execute a aplicação:**
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+
+### Endereços
+
+| Serviço | Endereço |
+| :--- | :--- |
+| **API Principal** | 👉 `http://localhost:8080` |
+| **Console do H2** | 👉 `http://localhost:8080/h2-console` |
+
+### 🔑 Credenciais Padrão
+
+Um usuário **ADMIN** é criado na inicialização (`DataInitializer.java`) para testes:
+
+| Campo | Valor |
+| :--- | :--- |
+| **Username** | `admin` |
+| **Password** | `Admin@123` |
+
+---
+
+## 📝 Exemplos de Corpo de Requisição
+
+### 📦 Produtos (`POST /api/v1/products`):
 
 ```json
 {
@@ -122,56 +121,22 @@ Console do H2 disponível em:
   "name": "Produto de Exemplo",
   "description": "Descrição do produto de exemplo.",
   "price": 149.90,
-  "stock": 15,
-  "currencyId": "BRL",
-  "categoryId": "MLB1055",
-  "listingTypeId": "gold_special",
-  "condition": "new",
-  "warranty": "1 ano de garantia pelo fabricante",
-  "images": [
-    "http://http2.mlstatic.com/D_NQ_NP_654321-MLB987654_012025-F.jpg"
-  ],
-  "attributes": {
-    "BRAND": "Marca Exemplo",
-    "MODEL": "Modelo XPTO",
-    "COLOR": "Azul"
-  }
+  "stock": 15
 }
 ```
+👤 Usuários (`POST /api/v1/users`):
 
----
-
-### 🔹 Usuários
-
-* `GET /api/v1/users` → Lista todos os usuários
-* `GET /api/v1/users/{id}` → Busca usuário por ID
-* `POST /api/v1/users` → Cria novo usuário
-* `PUT /api/v1/users/{id}` → Atualiza usuário existente
-* `DELETE /api/v1/users/{id}` → Remove usuário por ID
-
-**Exemplo de corpo (POST/PUT):**
+A senha deve atender às seguintes Regras de Validação:
+- Mínimo 8 caracteres.
+- Pelo menos 1 caractere especial.
+- Pelo menos 1 número.
+- Pelo menos 1 letra maiúscula.
 
 ```json
+
 {
   "name": "Nome do Usuário",
   "username": "usuarioteste",
-  "password": "Password@123"
+  "password": "Password@123",
+  "role": "HOST"
 }
-```
-
-#### Regras de Validação da Senha
-
-* Mínimo **8 caracteres**
-* Pelo menos **1 caractere especial**
-* Pelo menos **1 número**
-* Pelo menos **1 letra maiúscula**
-
----
-
-## Observações
-
-* O `redirect.uri` deve ser **idêntico** ao configurado no app do Mercado Livre.
-* O projeto usa **H2 Database** por padrão (ótimo para desenvolvimento).
-  Para produção, configure outro banco no `application.properties`.
-
----
