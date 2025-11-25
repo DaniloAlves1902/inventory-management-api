@@ -26,7 +26,7 @@ O foco principal é o domínio de padrões de software:
 | Camada | Responsabilidade Principal | Exemplos |
 | :--- | :--- | :--- |
 | **Domain** | Entidades de Negócio e Validação. | `ProductDomain`, `UserValidator`. |
-| **Application** | Orquestração (Casos de Uso) e Contratos (`Gateways`). | `ProductCreationUseCase`, `UserRepositoryGateway`. |
+| **Application** | Orquestração (Casos de Uso) e Contratos (`Gateways`). | `CreateProductUseCase`, `ProductGateway`. |
 | **Infrastructure** | Implementação de Persistência, Segurança e Mappers. | `ProductRepositoryJPA`, `JwtService`. |
 | **Presentation** | Exposição da API REST, DTOs e Tratamento de Exceções. | `ProductController`, `GlobalExceptionHandler`. |
 
