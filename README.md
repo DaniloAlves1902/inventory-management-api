@@ -121,7 +121,8 @@ Um usuário **ADMIN** é criado na inicialização (`DataInitializer.java`) para
   "name": "Produto de Exemplo",
   "description": "Descrição do produto de exemplo.",
   "price": 149.90,
-  "stock": 15
+  "stock": 15,
+  "currency": "BRL"
 }
 ```
 👤 Usuários (`POST /api/v1/users`):
