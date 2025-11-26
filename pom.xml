@@ -8,10 +8,10 @@
 		<version>3.5.5</version>
 		<relativePath/> </parent>
 	<groupId>com.danilo-alves</groupId>
-	<artifactId>inventory-api</artifactId>
+	<artifactId>simplified-erp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>inventory-api</name>
-	<description>Demo project for Spring Boot</description>
+	<name>simplified-erp</name>
+	<description></description>
 	<url/>
 	<licenses>
 		<license/>
