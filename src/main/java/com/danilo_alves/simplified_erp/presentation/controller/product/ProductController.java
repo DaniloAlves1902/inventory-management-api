@@ -64,8 +64,10 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    // Temporary method to convert DTO to Domain
     private ProductDomain toDomain(ProductRequestDTO dto) {
         return new ProductDomain(
+                null,
                 null,
                 dto.sku(),
                 dto.name(),
