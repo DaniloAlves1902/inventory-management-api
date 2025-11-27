@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class ProductDomain {
     private Long id;
+    private Long version;
     private String sku;
     private String name;
     private String description;
