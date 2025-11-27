@@ -4,6 +4,8 @@ import com.danilo_alves.simplified_erp.domain.entity.stock.StockMovementDomain;
 import com.danilo_alves.simplified_erp.domain.entity.stock.enums.MovementDomain;
 
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record StockMovementResponseDTO(
         Long id,
@@ -22,5 +24,11 @@ public record StockMovementResponseDTO(
                 domain.getTimeStamp(),
                 domain.getChangedBy() != null ? domain.getChangedBy().getUsername() : "System"
         );
+    }
+
+    public static List<StockMovementResponseDTO> fromDomain(List<StockMovementDomain> domains) {
+        return domains.stream()
+                .map(StockMovementResponseDTO::fromDomain)
+                .collect(Collectors.toList());
     }
 }
