@@ -1,4 +1,4 @@
-# Simplified ERP (Marketplace Inventory)
+# Simplified ERP
 
 Um sistema de **Mini ERP**, desenvolvido com **Java 21** e **Spring Boot 3**.
 
